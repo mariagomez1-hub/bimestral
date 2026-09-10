@@ -17,28 +17,28 @@ carros = []
 # funciones
 # ------------------
 
-# Dibujar el escenario
+# dibujar el escenario
 def dibujar_escenario():
     c.delete("escenario")
 
-    # Pasto de arriba y abajo
-    c.create_rectangle(0, 0, BASE, 80, fill="green", tags="escenario")
-    c.create_rectangle(0, 320, BASE, ALTURA, fill="green", tags="escenario")
+    # fondo de arriba y abajo
+    c.create_rectangle(0, 0, BASE, 80, fill="pink", tags="escenario")
+    c.create_rectangle(0, 320, BASE, ALTURA, fill="pink", tags="escenario")
 
-    # Avenida
+    # escenario
     c.create_rectangle(0, 80, BASE, 320, fill="gray", tags="escenario")
 
-    # Líneas de la carretera
+    # lineas de la carretera
     for y in range(120, 320, 50):
         c.create_rectangle(0, y, BASE, y + 5,
         fill="white", tags="escenario")
 
 
-# Crear los carros
+# crear los carros
 def crear_carros():
     global carros
     carros = []
-    colores = ["red", "blue", "yellow", "orange", "purple"]
+    colores = [ "blue", "purple"]
     posiciones = [ (50, 100, 130, 140, 5),(300, 150, 390, 190, -5),(120, 210, 210, 250, 5),(330, 260, 420, 300, -5)]
     for x1, y1, x2, y2, velocidad in posiciones:
         color = random.choice(colores)
@@ -46,15 +46,15 @@ def crear_carros():
         carros.append([carro, velocidad])
 
 
-# Dibujar el pollito
+# dibujar el pollito
 def dibujar_pollito():
     c.delete("pollito")
 
-    # Cuerpo
+    # cuerpo
     c.create_oval(x_pollito - 15, y_pollito - 15, x_pollito + 15, y_pollito + 15, fill="yellow", outline="black", tags="pollito")
 
 
-# Mover carros
+# mover carros
 def mover_carros():
     for carro in carros:
         objeto = carro[0]
@@ -67,7 +67,7 @@ def mover_carros():
             c.move(objeto, BASE + 100, 0)
 
 
-# Comprobar choque
+# comprobar choque
 def comprobar_colision():
     pollito_coords = ( x_pollito - 15, y_pollito - 28, x_pollito + 22, y_pollito + 24)
 
@@ -83,24 +83,23 @@ def comprobar_colision():
             perder()
 
 
-# Ganar
+# ganar
 def ganar():
     c.create_text(BASE / 2, ALTURA / 2,text="¡GANASTE!", font=("Arial", 30, "bold"),fill="white",tags="mensaje")
 
 
-# Perder
+# perder
 def perder():
-    c.create_text(BASE / 2,ALTURA / 2,text="¡CUIDADO CON LOS CARROS!",font=("Arial", 22, "bold"),fill="red",tags="mensaje")
+    c.create_text(BASE / 2,ALTURA / 2,text="¡Perdiste!",font=("Arial", 22, "bold"),fill="red",tags="mensaje")
 
 
-# Movimiento del pollito
+# movimiento del pollito
 def mover_arriba(event=None):
     global y_pollito
 
     if y_pollito > 20:
         y_pollito -= 10
-
-    dibujar_pollito()
+        dibujar_pollito()
     comprobar_colision()
 
     if y_pollito <= 80:
@@ -131,7 +130,7 @@ def mover_derecha(event=None):
     comprobar_colision()
 
 
-# Animación de los carros
+# animación de los carros
 def actualizar():
     mover_carros()
     comprobar_colision()
@@ -143,25 +142,25 @@ def actualizar():
 # ------------------
 
 ventana_principal = Tk()
-ventana_principal.title("Pollito Cruza la Avenida")
+ventana_principal.title("pollito Cruza la Avenida")
 ventana_principal.geometry("500x500")
 ventana_principal.resizable(False, False)
 ventana_principal.config(bg="white")
 
 
-# Canvas
+# canvas
 c = Canvas( ventana_principal, width=BASE,height=ALTURA,bg="green")
 
 c.place(x=20, y=20)
 
 
-# Crear escenario
+# crear escenario
 dibujar_escenario()
 
-# Crear carros
+# crear carros
 crear_carros()
 
-# Dibujar pollito
+# dibujar pollito
 dibujar_pollito()
 
 
